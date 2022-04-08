@@ -4,6 +4,7 @@ import com.example.PageAndFilterHateos.entity.Customer;
 import com.example.PageAndFilterHateos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +35,16 @@ public class CustomerResource {
                                                       @RequestParam(defaultValue = "0") int page,
                                                       @RequestParam(defaultValue = "30") int size){
         return customerService.fetchFilteredCustomerDataAsPage(firstNameFilter, lastNameFilter, page, size);
+    }
+
+    @RequestMapping("api/v3/customers")
+    public Page<Customer> fetchCustomersWithPageInterfaceAndSorted(@RequestParam(defaultValue = "") String firstNameFilter,
+                                                                   @RequestParam(defaultValue = "") String lastNameFilter,
+                                                                   @RequestParam(defaultValue = "0") int page,
+                                                                   @RequestParam(defaultValue = "30") int size,
+                                                                   @RequestParam(defaultValue = "") List<String> sortList,
+                                                                   @RequestParam(defaultValue = "DESC") Sort.Direction sortOrder){
+        return customerService.fetchCustomerDataAsPageWithFilterAndSort(firstNameFilter, lastNameFilter, page, size, sortList, sortOrder.toString());
     }
 
 }
